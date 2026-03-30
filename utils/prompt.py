@@ -15,7 +15,5 @@ Context:
 Question:
 {query}
 
-Answer format:
-- Answer:
-- Sources:
+Answer:
 """

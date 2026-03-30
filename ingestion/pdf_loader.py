@@ -15,7 +15,7 @@ def load_and_split():
 
             total_pages=len(documents)
 
-            for page_num,doc in enumerate(documents):
+            for page_num,doc in enumerate(documents, start=1):
                 doc.metadata.update({
                     "source": file,
                     "file_path": file_path,
@@ -31,7 +31,7 @@ def load_and_split():
 
     split_docs= splitter.split_documents(all_documents)
 
-    for chunk_id,doc in enumerate(split_docs):
+    for chunk_id,doc in enumerate(split_docs, start=1):
         doc.metadata["chunk_id"] = chunk_id
         doc.metadata["chunk_size"] = len(doc.page_content)
 
