@@ -1,9 +1,13 @@
 def build_prompt(context, query):
     return f"""
-You are a helpful assistant.
+You are a helpful AI assistant.
 
-Use the context below to answer the question.
-If the context is not relevant, use your general knowledge.
+Answer the question strictly using the context below.
+
+Rules:
+- Only use the provided context
+- If answer is missing, say "I don't know"
+- Cite sources in format: (filename, page number)
 
 Context:
 {context}
@@ -11,5 +15,7 @@ Context:
 Question:
 {query}
 
-Answer clearly and correctly:
+Answer format:
+- Answer:
+- Sources:
 """

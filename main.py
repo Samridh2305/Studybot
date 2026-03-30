@@ -1,16 +1,18 @@
-from ingestion.pdf_loader import load_and_split
-from storage.vectorstore.chroma_db import create_db, load_db
-from llm.openai_client import get_answer
-from utils.prompt import build_prompt
-from common.config import settings
-
-import os
 import hashlib
+import os
+
+from common.config import settings
+from ingestion.pdf_loader import load_and_split
+from llm.openai_client import get_answer
+from storage.vectorstore.chroma_db import create_db, load_db
+from utils.prompt import build_prompt
+
 
 def generate_id(doc):
     text = doc.page_content
     source = doc.metadata.get("source", "")
-    return hashlib.md5((text + source).encode()).hexdigest()
+    page= str(doc.metadata.get("page", ""))
+    return hashlib.md5((text + source+page).encode()).hexdigest()
 
 
 if os.path.exists("chroma_db"):
@@ -45,11 +47,22 @@ while True:
 
     if not relevant_docs:
         print("\nBot: I couldn't find relevant information in the document.")
-        print("-" * 50)
         continue
 
+    sources={}
+
+    for doc in relevant_docs:
+        src=doc.metadata.get("source", "")
+        page = doc.metadata.get("page", "")
+
+        if src not in sources:
+            sources[src]=set()
+
+        sources[src].add(page)
+
     context = "\n\n".join([
-        doc.page_content for doc in relevant_docs
+        f"[{doc.metadata.get('source')} - page {doc.metadata.get('page')}]\n{doc.page_content}"
+        for doc in relevant_docs
     ])
 
     prompt = build_prompt(context, query)
@@ -61,3 +74,7 @@ while True:
 
     print("\nBot:", answer)
     print("-" * 50)
+    print("\nSources:")
+    for src, pages in sources.items():
+        pages_str = ", ".join(str(p) for p in sorted(pages))
+        print(f"- {src} (pages: {pages_str})")

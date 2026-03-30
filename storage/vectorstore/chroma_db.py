@@ -3,7 +3,6 @@ from langchain_chroma import Chroma
 from common.config import settings
 from embeddings.embedder import get_embeddings
 
-
 def create_db(docs):
     embeddings = get_embeddings()
 

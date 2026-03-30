@@ -27,3 +27,6 @@ chroma_db/
 
 # Jupyter
 .ipynb_checkpoints/
+
+#Data Files
+data/

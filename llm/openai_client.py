@@ -9,5 +9,7 @@ def get_answer(prompt):
         input=prompt,
         max_output_tokens=100
     )
-
-    return response.output_text if hasattr(response, "output_text") else str(response)
+    if hasattr(response, "output_text"):
+        return response.output_text
+    else:
+        return str(response)

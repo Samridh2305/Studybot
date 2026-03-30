@@ -13,8 +13,15 @@ def load_and_split():
             loader = PyPDFLoader(file_path)
             documents = loader.load()
 
-            for doc in documents:
-                doc.metadata["source"] = file
+            total_pages=len(documents)
+
+            for page_num,doc in enumerate(documents):
+                doc.metadata.update({
+                    "source": file,
+                    "file_path": file_path,
+                    "page": page_num,
+                    "total_pages": total_pages
+                })
                 all_documents.append(doc)
 
     splitter = RecursiveCharacterTextSplitter(
@@ -22,4 +29,10 @@ def load_and_split():
         chunk_overlap=settings.CHUNK_OVERLAP
     )
 
-    return splitter.split_documents(all_documents)
+    split_docs= splitter.split_documents(all_documents)
+
+    for chunk_id,doc in enumerate(split_docs):
+        doc.metadata["chunk_id"] = chunk_id
+        doc.metadata["chunk_size"] = len(doc.page_content)
+
+    return split_docs
