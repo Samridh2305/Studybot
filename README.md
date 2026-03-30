@@ -12,6 +12,8 @@ Study Assistant Chatbot (RAG-based)
 8. Fast retrieval using Chroma vector database
 
 ## Flow
+
+```
 PDFs
  ↓
 Load & Split (pages → chunks)
@@ -33,8 +35,10 @@ Build Context
 LLM Generates Answer
  ↓
 Display Answer + Sources
+```
 
 ### Project Structure
+```
 .
 ├── ingestion/
 │   └── pdf_loader.py        # Load and split PDFs into chunks
@@ -53,6 +57,7 @@ Display Answer + Sources
 ├── chroma_db/               # Persisted vector database
 ├── main.py                  # Entry point
 └── README.md
+```
 
 ### Installing
 * Clone the repo
