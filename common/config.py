@@ -1,4 +1,6 @@
 import os
+from typing import List
+
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -15,6 +17,11 @@ class Settings:
     TOP_K = int(os.getenv("TOP_K"))
     PERSIST_DIR = os.getenv("PERSIST_DIR", "chroma_db")
     COLLECTION = os.getenv("COLLECTION")
+
+    CORS_ALLOW_ORIGINS: List[str] = ["*"]
+    CORS_ALLOW_METHODS: List[str] = ["*"]
+    CORS_ALLOW_HEADERS: List[str] = ["*"]
+    CORS_ALLOW_CREDENTIALS: bool = True
 
 settings=Settings()
 
