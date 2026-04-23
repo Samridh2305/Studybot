@@ -90,20 +90,11 @@ CHUNK_OVERLAP
 CHUNK_SIZE
 COLLECTION
 PERSIST_DIR
-PDF_DIR
+UPLOAD_DIR
 ```
 
-### Usage
-
-1. Add pdf in folder data
-2. Run the file
-
-```
-python main.py
-```
-
-3. Enter Query related to uploaded document
-4. Example Output
+1. Enter Query related to uploaded document
+2. Example Output
 
 ```
 Bot: Python is a high-level programming language widely used in AI.

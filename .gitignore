@@ -29,4 +29,4 @@ chroma_db/
 .ipynb_checkpoints/
 
 #Data Files
-data/
+uploads/

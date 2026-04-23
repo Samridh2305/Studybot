@@ -10,7 +10,7 @@ class Settings:
     OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
     # Document Chunking Configurations
-    PDF_DIR = os.getenv("PDF_DIR")
+    UPLOAD_DIR = os.getenv("UPLOAD_DIR")
 
     CHUNK_SIZE = int(os.getenv("CHUNK_SIZE"))
     CHUNK_OVERLAP = int(os.getenv("CHUNK_OVERLAP"))

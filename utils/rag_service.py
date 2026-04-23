@@ -2,18 +2,24 @@ import hashlib
 import os
 
 from common.config import settings
-from ingestion.pdf_loader import load_and_split
 from llm.openai_client import get_answer
-from storage.vectorstore.chroma_db import create_db, load_db
+from storage.vectorstore.chroma_db import (
+    create_db,
+    load_db
+)
 from utils.prompt import build_prompt
 
 
 def generate_id(doc):
     text = doc.page_content
-    source = doc.metadata.get("source", "")
+    file_hash = doc.metadata.get("file_hash", "")
     page = str(doc.metadata.get("page", ""))
-    return hashlib.md5((text + source + page).encode()).hexdigest()
+    raw= text+file_hash+page
+    return hashlib.md5(raw.encode()).hexdigest()
 
+def get_file_hash(file_path):
+    with open(file_path, "rb") as f:
+        return hashlib.md5(f.read()).hexdigest()
 
 def init_db():
     if os.path.exists("chroma_db"):
@@ -21,10 +27,7 @@ def init_db():
         db = load_db()
     else:
         print("Creating new ChromaDB...\n")
-        docs = load_and_split()
-        ids = [generate_id(doc) for doc in docs]
-        db = create_db(docs)
-        db.add_documents(docs, ids=ids)
+        db=create_db()
     return db
 
 
